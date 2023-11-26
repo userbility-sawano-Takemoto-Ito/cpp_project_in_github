@@ -1,11 +1,247 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Music App</title>
+  </head>
+  <body>
+    <!-- ト音記号とヘ音記号を切り替えるラジオボタン -->
+    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+      <label class="btn btn-secondary active">
+        <input
+          type="radio"
+          name="clef"
+          id="trebleClef"
+          autocomplete="off"
+          checked
+        />
+        ト音記号
+      </label>
+      <label class="btn btn-secondary">
+        <input type="radio" name="clef" id="bassClef" autocomplete="off" />
+        ヘ音記号
+      </label>
+    </div>
+
+    <!-- 五線譜と音符を表示するための要素 -->
+    <div id="staff-container" class="container">
+      <div id="clef" class="clef"></div>
+      <!-- ト音記号またはヘ音記号を表示するための要素 -->
+      <div id="staff"></div>
+      <div id="note"></div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
+
+<!--
+	<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    #staff {
+      position: relative;
+      height: 200px;
+      width: 100%;
+      background-color: #f0f0f0;
+      overflow: hidden;
+    }
+
+	.line {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background-color: black;
+      top: 0; /* 五線の位置を調整 */
+    }
+
+    #note {
+		position: absolute;
+		height: 20px;
+		width: 20px;
+		background-color: black;
+		border-radius: 50%;
+		cursor: pointer;
+		left: 100px; /* 初期位置を右に調整 */
+	}
+  </style>
+  <title>Music App</title>
 </head>
 <body>
-    
+
+ 五線譜と音符を表示するための要素
+<div id="staff"></div>
+<div id="note"></div>
+
+<script>
+  // DOMの読み込みが完了した時に実行
+  document.addEventListener('DOMContentLoaded', function() {
+    // 五線譜を管理するクラス
+    class StaffClass {
+      constructor() {
+        this.staffElement = document.getElementById('staff');
+        this.lines = []; // ここで lines を初期化
+      }
+
+    	drawStaff() {
+			// 五線を描画する処理
+			for (let i = 0; i < 5; i++) {
+			const line = document.createElement('div');
+			line.className = 'line';
+			line.style.top = `${40 + i * 20}px`; // 五線譜の間隔を調整するために変更可能
+			this.staffElement.appendChild(line);
+			this.lines.push(40 + i * 20);
+			}
+
+			// 下の制限線を追加
+			const lowerLimitLine = document.createElement('div');
+			lowerLimitLine.className = 'line';
+			lowerLimitLine.style.top = `${40 + 5 * 20}px`; // 下の制限線の位置
+			lowerLimitLine.style.backgroundColor = 'transparent'; // 透明にする
+			this.staffElement.appendChild(lowerLimitLine);
+
+
+		}
+    }
+
+    // 音符を管理するクラス
+    class NoteClass {
+      constructor(position) {
+        this.noteElement = document.getElementById('note');
+        // もし '#note' 要素が存在しない場合はエラーをスロー
+        if (!this.noteElement) {
+          throw new Error("Element with id 'note' not found");
+        }
+        this.setPosition(position);
+      }
+
+      // 音符の位置を設定するメソッド
+      setPosition(position) {
+        this.position = position;
+        this.noteElement.style.top = `${position}px`;
+      }
+
+      // カーソルに応じて音符を移動するメソッド
+      moveNote(direction) {
+		const step = 20; // 移動のステップを大きくする
+		const minPosition = 40; // 最低の位置（ド）を設定
+		const maxPosition = 40 + 5 * 20; // 最大の位置（１オクターブ上のシ）を設定
+
+		// 下の制限線の位置を設定
+		const lowerLimit = 40 + 5 * 20;
+
+		// 上の制限線の位置を設定
+		const upperLimit = 40 - 2 * 20;
+
+		if (direction === 'up' && this.position > minPosition) {
+			// カーソル位置が上の制限線より上の場合のみ移動
+			for (let i = 0; i < this.lines.length; i++) {
+				if (this.position <= this.lines[i]) {
+					this.position = this.lines[i];
+					break;
+				}
+			}
+		} else if (direction === 'down' && this.position < maxPosition) {
+			// カーソル位置が下の制限線より下の場合のみ移動
+			for (let i = this.lines.length - 1; i >= 0; i--) {
+				if (this.position + 20 >= this.lines[i]) { // 下に移動するために +20
+					this.position = this.lines[i] - 20; // 下に移動するために -20
+					break;
+				}
+			}
+		}
+		this.setPosition(this.position);
+		}
+    }
+
+    // アプリケーション全体を管理するクラス
+    class AppClass {
+      constructor() {
+        // 五線譜と音符のクラスのインスタンスを生成
+        this.staff = new StaffClass();
+        this.note = new NoteClass(100); // 初期位置
+        // イベントのバインドと初期描画を実行
+        this.bindEvents();
+      }
+
+      // マウス移動イベントのバインド
+      bindEvents() {
+        document.addEventListener('mousemove', (event) => this.handleCursorMovement(event));
+      }
+
+      // カーソル移動に応じて音符を移動させるメソッド
+      handleCursorMovement(event) {
+        const mouseY = event.clientY;
+        const staffRect = this.staff.staffElement.getBoundingClientRect();
+
+        // カーソル位置が五線譜内にある場合に音符を移動
+		if (mouseY >= staffRect.top && mouseY <= staffRect.bottom) {
+			// カーソル位置が中央より上なら上に、下なら下に移動
+			const direction = mouseY < staffRect.top + staffRect.height / 2 ? 'up' : 'down';
+			this.note.moveNote(direction);
+		}
+	  }
+	}
+
+    // アプリケーションの起動
+    const musicApp = new AppClass();
+    // 五線譜の初期描画
+    musicApp.staff.drawStaff();
+  });
+</script>
+
+ Code injected by live-server
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
 </body>
-</html> 
+</html>
+
+-->
