@@ -121,3 +121,38 @@
     z-index: 3;
     /* 音符を最前面に表示 */
 }
+
+
+body {
+    display: flex;
+    justify-content: center;
+    align-content: space-around;
+    flex-wrap: wrap;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.piano {
+    display: flex;
+}
+
+.key {
+    width: 50px;
+    height: 200px;
+    border: 1px solid #000;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.white-key {
+    background-color: #fff;
+}
+
+.black-key {
+    background-color: #000;
+    width: 30px;
+    height: 120px;
+    margin-left: -20px;
+    z-index: 1;
+}
