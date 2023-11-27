@@ -75,7 +75,12 @@ document.addEventListener("DOMContentLoaded", function () {
         // 音階のテキストを更新
         noteText.textContent = getNoteName(y, staffRect.height);
 
-        getKeySelected(y, staffRect.height);
+        if (currentClef === "treble") {
+            getTrebleKeySelected(y, staffRect.height);
+        } else {
+            getBassKeySelected(y, staffRect.height);
+        }
+        
     });
 
     // 音階名を返す関数（ドレミファソラシドで表現）
@@ -109,22 +114,22 @@ document.addEventListener("DOMContentLoaded", function () {
         index = Math.round(y / (height / 8));
         // 現在の譜面に応じて音階名を返す
         if (currentClef === "treble") {
-            return trebleNotes[index] || trebleNotes[trebleNotes.length - 1];
+            return trebleNotes[index];
         } else {
-            return bassNotes[index] || bassNotes[bassNotes.length - 1];
+            return bassNotes[index];
         }
     }
 
-    function getKeySelected(y, height) {
-        const pianoKeys = document.querySelectorAll(".piano .within");
+    function getTrebleKeySelected(y, height) {
+        const pianoKeys = document.querySelectorAll(".piano .within_t");
         // 要素の長さを取得
         let len = pianoKeys.length;
         index = Math.round(y / (height / 8));
 
-        if (index >= -0 && index <= len) {
+        if (index >= 0 && index <= len) {
             // すべてのキーから selected クラスを削除
-            pianoKeys.forEach(function (within) {
-                within.classList.remove("selected");
+            pianoKeys.forEach(function (within_t) {
+                within_t.classList.remove("selected");
             });
 
             let reversedIndex = len - index;
@@ -132,8 +137,31 @@ document.addEventListener("DOMContentLoaded", function () {
             pianoKeys[reversedIndex].classList.add("selected");
         } else {
             // すべてのキーから selected クラスを削除
-            pianoKeys.forEach(function (within) {
-                within.classList.remove("selected");
+            pianoKeys.forEach(function (within_t) {
+                within_t.classList.remove("selected");
+            });
+        }
+    }
+
+    function getBassKeySelected(y, height) {
+        const pianoKeys = document.querySelectorAll(".piano .within_b");
+        // 要素の長さを取得
+        let len = pianoKeys.length;
+        index = Math.round(y / (height / 8));
+
+        if (index >= 0 && index <= len) {
+            // すべてのキーから selected クラスを削除
+            pianoKeys.forEach(function (within_b) {
+                within_b.classList.remove("selected");
+            });
+
+            let reversedIndex = len - index;
+            // index に対応するキーに selected クラスを追加
+            pianoKeys[reversedIndex].classList.add("selected");
+        } else {
+            // すべてのキーから selected クラスを削除
+            pianoKeys.forEach(function (within_b) {
+                within_b.classList.remove("selected");
             });
         }
     }
