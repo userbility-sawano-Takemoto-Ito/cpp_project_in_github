@@ -74,8 +74,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // 音階のテキストを更新
         noteText.textContent = getNoteName(y, staffRect.height);
-
-        getKeySelected(y, staffRect.height);
     });
 
     // 音階名を返す関数（ドレミファソラシドで表現）
@@ -106,35 +104,12 @@ document.addEventListener("DOMContentLoaded", function () {
         ];
 
         // 五線譜の高さに対する音符の位置を計算
-        index = Math.round(y / (height / 8));
+        const index = Math.round(y / (height / 8));
         // 現在の譜面に応じて音階名を返す
         if (currentClef === "treble") {
             return trebleNotes[index] || trebleNotes[trebleNotes.length - 1];
         } else {
             return bassNotes[index] || bassNotes[bassNotes.length - 1];
-        }
-    }
-
-    function getKeySelected(y, height) {
-        const pianoKeys = document.querySelectorAll(".piano .within");
-        // 要素の長さを取得
-        let len = pianoKeys.length;
-        index = Math.round(y / (height / 8));
-
-        if (index >= -0 && index <= len) {
-            // すべてのキーから selected クラスを削除
-            pianoKeys.forEach(function (within) {
-                within.classList.remove("selected");
-            });
-
-            let reversedIndex = len - index;
-            // index に対応するキーに selected クラスを追加
-            pianoKeys[reversedIndex].classList.add("selected");
-        } else {
-            // すべてのキーから selected クラスを削除
-            pianoKeys.forEach(function (within) {
-                within.classList.remove("selected");
-            });
         }
     }
 
@@ -149,7 +124,24 @@ document.addEventListener("DOMContentLoaded", function () {
     $("input[type=radio][name=clef]").on("change", function () {
         toggleClef();
     });
-
     // 初期状態でト音記号を表示
     toggleClef();
+});
+
+// index が 1 のとき、e のクラスを持つ要素に selected クラスを追加する
+document.addEventListener("DOMContentLoaded", function () {
+    var index = 1; // ここに適切な index の値を設定してください
+    var pianoKeys = document.querySelectorAll(".piano .key");
+
+    if (index >= 0 && index < pianoKeys.length) {
+        // すべてのキーから selected クラスを削除
+        pianoKeys.forEach(function (key) {
+            key.classList.remove("selected");
+        });
+
+        // index に対応するキーに selected クラスを追加
+        pianoKeys[index].classList.add("selected");
+    } else {
+        console.error("Invalid index value");
+    }
 });

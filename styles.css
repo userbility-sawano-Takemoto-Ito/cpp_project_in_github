@@ -90,7 +90,7 @@
 
 /* ト音記号の大きさを調整 */
 .treble-clef {
-    background-image: url('images/treble_clef.svg');
+    background-image: url("images/treble_clef.svg");
     background-size: 100% 100%;
     width: 96px;
     height: 144px;
@@ -100,7 +100,7 @@
 
 /* ヘ音記号の大きさを調整 */
 .bass-clef {
-    background-image: url('images/bass_clef.svg');
+    background-image: url("images/bass_clef.svg");
     background-size: 100% 100%;
     width: calc(96px * 0.7);
     height: calc(144px * 0.7);
@@ -121,7 +121,6 @@
     z-index: 3;
     /* 音符を最前面に表示 */
 }
-
 
 body {
     display: flex;
@@ -155,4 +154,8 @@ body {
     height: 120px;
     margin-left: -20px;
     z-index: 1;
+}
+
+.selected{
+    background-color: #aaa;
 }

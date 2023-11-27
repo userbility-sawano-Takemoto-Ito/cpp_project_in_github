@@ -1,62 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-    />
-    <link rel="stylesheet" href="styles.css" />
-    <title>Music App</title>
-  </head>
-  <body>
-    <!-- ト音記号とヘ音記号を切り替えるラジオボタン -->
-    <div class="btn-group btn-group-toggle" data-toggle="buttons">
-      <label class="btn btn-secondary active">
-        <input
-          type="radio"
-          name="clef"
-          id="trebleClef"
-          autocomplete="off"
-          checked
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         />
-        ト音記号
-      </label>
-      <label class="btn btn-secondary">
-        <input type="radio" name="clef" id="bassClef" autocomplete="off" />
-        ヘ音記号
-      </label>
-    </div>
+        <link rel="stylesheet" href="styles.css" />
+        <title>Music App</title>
+    </head>
+    <body>
+        <!-- ト音記号とヘ音記号を切り替えるラジオボタン -->
+        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-secondary active">
+                <input
+                    type="radio"
+                    name="clef"
+                    id="trebleClef"
+                    autocomplete="off"
+                    checked
+                />
+                ト音記号
+            </label>
+            <label class="btn btn-secondary">
+                <input
+                    type="radio"
+                    name="clef"
+                    id="bassClef"
+                    autocomplete="off"
+                />
+                ヘ音記号
+            </label>
+        </div>
 
-    <!-- 五線譜と音符を表示するための要素 -->
-    <div id="staff-container" class="container">
-      <div id="clef" class="clef"></div>
-      <!-- ト音記号またはヘ音記号を表示するための要素 -->
-      <div id="staff"></div>
-      <div id="note"></div>
-    </div>
+        <!-- 五線譜と音符を表示するための要素 -->
+        <div id="staff-container" class="container">
+            <div id="clef" class="clef"></div>
+            <!-- ト音記号またはヘ音記号を表示するための要素 -->
+            <div id="staff"></div>
+            <div id="note"></div>
+        </div>
 
-    <div class="piano">
-        <div class="key white-key"></div>
-        <div class="key black-key"></div>
-        <div class="key white-key"></div>
-        <div class="key black-key"></div>
-        <div class="key white-key"></div>
-        <div class="key white-key"></div>
-        <div class="key black-key"></div>
-        <div class="key white-key"></div>
-        <div class="key black-key"></div>
-        <div class="key white-key"></div>
-        <div class="key black-key"></div>
-        <div class="key white-key"></div>
-    </div>
+        <div class="piano">
+            <div class="key white-key"></div>
+            <div class="key black-key"></div>
+            <div class="key white-key"></div>
+            <div class="key black-key"></div>
+            <div class="key white-key within"></div>
+            <div class="key white-key within"></div>
+            <div class="key black-key"></div>
+            <div class="key white-key within"></div>
+            <div class="key black-key"></div>
+            <div class="key white-key within"></div>
+            <div class="key black-key"></div>
+            <div class="key white-key within"></div>
+            <div class="key white-key within"></div>
+            <div class="key black-key"></div>
+            <div class="key white-key within"></div>
+            <div class="key black-key"></div>
+            <div class="key white-key within"></div>
+            <div class="key white-key"></div>
+            <div class="key black-key"></div>
+            <div class="key white-key"></div>
+            <div class="key black-key"></div>
+            <div class="key white-key"></div>
+            <div class="key black-key"></div>
+            <div class="key white-key"></div>
+        </div>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script src="script.js"></script>
-  </body>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <script src="script.js"></script>
+    </body>
 </html>
 
 <!--
